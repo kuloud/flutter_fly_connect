@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <queries>
+        <package android:name="com.kuloud.android.flit"/>
+    </queries>
+
     <application
         android:label="flutter_fly_connect"
         android:name="${applicationName}"
@@ -29,5 +34,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+            
     </application>
 </manifest>
