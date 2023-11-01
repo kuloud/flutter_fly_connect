@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:appcheck/appcheck.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fly_connect/generated/l10n.dart';
+import 'package:flutter_fly_connect/utils/logger.dart';
 
 class IndexPage extends StatefulWidget {
   const IndexPage({super.key});
@@ -76,10 +77,16 @@ class _IndexPageState extends State<IndexPage> with WidgetsBindingObserver {
 
     final packages = Platform.isAndroid ? androidPackageNames : iOSSchemas;
 
-    final apps = await Future.wait(
-        packages.map((package) => AppCheck.checkAvailability(package)));
+    try {
+      final apps = await Future.wait(
+          packages.map((package) => AppCheck.checkAvailability(package)),
+          eagerError: true);
 
-    installedApps = apps.where((app) => (app != null)).cast<AppInfo>().toList();
+      installedApps =
+          apps.where((app) => (app != null)).cast<AppInfo>().toList();
+    } catch (e) {
+      logger.e('[queryFlyAppSet]', error: e);
+    }
 
     if (mounted) {
       setState(() {
